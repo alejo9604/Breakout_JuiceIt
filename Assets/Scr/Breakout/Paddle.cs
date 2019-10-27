@@ -20,13 +20,23 @@ public class Paddle : MonoBehaviour
     //Control var
     private Camera mainCamera;
     private Vector3 targetPos;
-    private bool _useColroSettings;
 
     private void Start() {
         this.targetPos = this.transform.position;
-        this.mainCamera = Camera.main;
 
+        //TODO: Optimize this
+        this.mainCamera = Camera.main;
         this.render = GetComponent<SpriteRenderer>();
+
+        //Add events
+        EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
+    }
+
+    private void OnDestroy()
+    {
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
+        }
     }
 
     void Update()
@@ -35,16 +45,15 @@ public class Paddle : MonoBehaviour
         this.targetPos.x = mainCamera.ScreenToWorldPoint( Input.mousePosition).x;
         this.targetPos.x = Mathf.Clamp(this.targetPos.x, -clampXPos, clampXPos);
         this.transform.position = Vector3.Lerp(this.transform.position, this.targetPos, Time.deltaTime * speed);
-
-        //Color
-        if (this._useColroSettings != Settings.EFFECT_SCREEN_COLORS)
-        {
-            this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
-            this._useColroSettings = Settings.EFFECT_SCREEN_COLORS;
-        }
-
     }
 
+
+    #region Events
+    private void OnChangeColor(ChangeColorEvent e)
+    {
+        this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
+    }
+    #endregion Events
 
 
     private void OnDrawGizmosSelected() {

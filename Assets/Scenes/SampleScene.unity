@@ -8943,6 +8943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1817927009}
   - component: {fileID: 1817927008}
+  - component: {fileID: 1817927010}
   m_Layer: 0
   m_Name: Breackout
   m_TagString: Untagged
@@ -9041,7 +9042,6 @@ MonoBehaviour:
   - {fileID: 2141483107}
   - {fileID: 588234169}
   - {fileID: 1705865030}
-  settings: {fileID: 1725907384}
   backcgroundColor: {r: 0.972549, g: 0.9490196, b: 0.7019608, a: 1}
   bricksColor: {r: 0.38431373, g: 0.7411765, b: 0.5176471, a: 1}
   wallsColor: {r: 0.53333336, g: 0.81960785, b: 0.6392157, a: 1}
@@ -9059,6 +9059,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1817927010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817927007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1bd48030bc4cd44ca03d56914d64116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1847177082
 GameObject:
   m_ObjectHideFlags: 0

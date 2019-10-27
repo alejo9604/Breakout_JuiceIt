@@ -21,7 +21,6 @@ public class Ball : MonoBehaviour
 
     //Control var.
     private Vector2 velocity;
-    private bool _useColroSettings = false;
 
 
     public float Velocity
@@ -45,18 +44,16 @@ public class Ball : MonoBehaviour
 
         this.velocity = Random.insideUnitCircle * initSpeed;
         this.rb.velocity = this.velocity;
+
+        //Add events
+        EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        
-        //Color
-        if(this._useColroSettings != Settings.EFFECT_SCREEN_COLORS)
-        {
-            this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
-            this._useColroSettings = Settings.EFFECT_SCREEN_COLORS;
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
         }
-
     }
 
 
@@ -83,5 +80,13 @@ public class Ball : MonoBehaviour
 
         this.rb.velocity = this.velocity;
     }
+
+
+    #region Events
+    private void OnChangeColor(ChangeColorEvent e)
+    {
+        this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
+    }
+    #endregion Events
 
 }

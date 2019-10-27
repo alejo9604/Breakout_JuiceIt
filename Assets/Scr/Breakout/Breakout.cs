@@ -12,8 +12,6 @@ public class Breakout : MonoBehaviour
     private SpriteRenderer[] walls;
     [SerializeField]
     private List<SpriteRenderer> bricks;
-    [SerializeField]
-    private HUDSettings settings;
 
     [Header("Color")]
     [SerializeField]
@@ -24,29 +22,24 @@ public class Breakout : MonoBehaviour
     private Color wallsColor = Color.green;
 
 
-    //Control vars.
-    private bool _useColroSettings;
 
 
     private void Start()
     {
+        //TODo: move this to event
         this.EnterTweening();
+
+        //Add events
+        EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        //Inputs
-        if (Input.GetKeyDown(KeyCode.Escape) && this.settings != null)
-            this.settings.ToggletHide();
-
-
-        //Color
-        if (this._useColroSettings != Settings.EFFECT_SCREEN_COLORS)
-        {
-            this._useColroSettings = Settings.EFFECT_SCREEN_COLORS;
-            this.UpdateColors();
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
         }
     }
+
 
     [ContextMenu("Get bricks")]
     public void GetBricks()
@@ -60,8 +53,8 @@ public class Breakout : MonoBehaviour
     }
 
 
-
-    private void UpdateColors()
+    #region Events
+    private void OnChangeColor(ChangeColorEvent e)
     {
         if (this.mainCamera != null)
             this.mainCamera.backgroundColor = Settings.EFFECT_SCREEN_COLORS ? this.backcgroundColor : Color.black;
@@ -83,7 +76,7 @@ public class Breakout : MonoBehaviour
         }
     }
 
-
+    #endregion Events
 
 
     private void EnterTweening()
