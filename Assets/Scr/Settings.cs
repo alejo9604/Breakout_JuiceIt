@@ -6,6 +6,7 @@ public class Settings
     public static float BALL_MIN_VELOCITY = 8;
     public static float BALL_MAX_VELOCITY = 10;
     public static float BALL_VELOCITY_LOSS = .01f;
+    public static float BALL_VELOCITY_MIN_AXIS_VALUE = 0.5f;
 
     //Color
     public static bool EFFECT_SCREEN_COLORS = false;

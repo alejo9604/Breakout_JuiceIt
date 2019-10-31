@@ -78,6 +78,13 @@ public class Ball : MonoBehaviour
         else if(currentVelocity > Settings.BALL_MAX_VELOCITY)
             this.Velocity -= currentVelocity * Settings.BALL_VELOCITY_LOSS * Time.deltaTime;
 
+        if(Mathf.Abs(this.velocity.x) < Settings.BALL_VELOCITY_MIN_AXIS_VALUE) {
+            this.velocity.x += Mathf.Sign(this.velocity.x) * Settings.BALL_VELOCITY_MIN_AXIS_VALUE * Time.deltaTime;
+        }
+        else if (Mathf.Abs(this.velocity.y) < Settings.BALL_VELOCITY_MIN_AXIS_VALUE) {
+            this.velocity.y += Mathf.Sign(this.velocity.y) * Settings.BALL_VELOCITY_MIN_AXIS_VALUE * Time.deltaTime;
+        }
+
         this.rb.velocity = this.velocity;
     }
 
