@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Ball : MonoBehaviour
+public class Ball : BreakoutElement
 {
+
+    private const float INIT_POS_Y = -1.77f;
+
     [Header("Movement")]
     [SerializeField]
     protected float initSpeed = 5;
@@ -16,7 +19,6 @@ public class Ball : MonoBehaviour
 
     //Components
     private Rigidbody2D rb;
-    private SpriteRenderer render;
 
 
     //Control var.
@@ -37,22 +39,24 @@ public class Ball : MonoBehaviour
     }
 
 
-    void Start()
+    protected override void Start()
     {
-        this.rb = GetComponent<Rigidbody2D>();
-        this.render = GetComponent<SpriteRenderer>();
+        base.Start();
 
-        this.velocity = Random.insideUnitCircle * initSpeed;
-        this.rb.velocity = this.velocity;
+        this.rb = GetComponent<Rigidbody2D>();
+
+        this.ResetElement();
 
         //Add events
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
+        EventManager.Instance.AddListener<InputResetLevelEvent>(this.OnInputResetLevel);
     }
 
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
+            EventManager.Instance.RemoveListener<InputResetLevelEvent>(this.OnInputResetLevel);
         }
     }
 
@@ -68,6 +72,15 @@ public class Ball : MonoBehaviour
         }
     }
 
+    
+    public override void ResetElement()
+    {
+        base.ResetElement();
+
+        this.transform.position = new Vector3(0, INIT_POS_Y, 0);
+        this.velocity = Random.insideUnitCircle * initSpeed;
+        this.rb.velocity = this.velocity;
+    }
 
     private void SetVelocity() {
         this.velocity = rb.velocity;
@@ -89,10 +102,18 @@ public class Ball : MonoBehaviour
     }
 
 
+
+
+
     #region Events
     private void OnChangeColor(ChangeColorEvent e)
     {
-        this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
+        this.ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white);
+    }
+
+    private void OnInputResetLevel(InputResetLevelEvent e)
+    {
+        this.ResetElement();
     }
     #endregion Events
 

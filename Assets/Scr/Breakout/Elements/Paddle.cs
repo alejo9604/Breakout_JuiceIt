@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paddle : MonoBehaviour
+public class Paddle : BreakoutElement
 {
     [Header("Movement")]
     [SerializeField]
@@ -14,19 +14,19 @@ public class Paddle : MonoBehaviour
     [SerializeField]
     private Color color;
 
-    //Components
-    private SpriteRenderer render;
 
     //Control var
     private Camera mainCamera;
     private Vector3 targetPos;
 
-    private void Start() {
+    protected override void Start() {
+
+        base.Start();
+
         this.targetPos = this.transform.position;
 
         //TODO: Optimize this
         this.mainCamera = Camera.main;
-        this.render = GetComponent<SpriteRenderer>();
 
         //Add events
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
@@ -51,7 +51,7 @@ public class Paddle : MonoBehaviour
     #region Events
     private void OnChangeColor(ChangeColorEvent e)
     {
-        this.render.color = Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
+        this.ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white);
     }
     #endregion Events
 

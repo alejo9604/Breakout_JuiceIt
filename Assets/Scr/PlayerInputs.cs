@@ -9,6 +9,7 @@ public class PlayerInputs : MonoBehaviour
 
     //Events
     private InputToggleSettingsEvent inputToggleSettingsEvent = new InputToggleSettingsEvent();
+    private InputResetLevelEvent inputResetLevelEvent = new InputResetLevelEvent();
 
     //Control var.
     private float delayTime = DELAY_INPUT_TIME;
@@ -24,6 +25,9 @@ public class PlayerInputs : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
             this.TriggerInput(this.inputToggleSettingsEvent);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            this.TriggerInput(this.inputResetLevelEvent);
     }
 
     private void TriggerInput(GameEvent e)

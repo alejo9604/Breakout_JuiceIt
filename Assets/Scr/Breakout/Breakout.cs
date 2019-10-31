@@ -9,9 +9,9 @@ public class Breakout : MonoBehaviour
     [SerializeField]
     private Camera mainCamera;
     [SerializeField]
-    private SpriteRenderer[] walls;
+    private Wall[] walls;
     [SerializeField]
-    private List<SpriteRenderer> bricks;
+    private List<Brick> bricks;
 
     [Header("Color")]
     [SerializeField]
@@ -31,12 +31,14 @@ public class Breakout : MonoBehaviour
 
         //Add events
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
+        EventManager.Instance.AddListener<InputResetLevelEvent>(this.OnInputResetLevel);
     }
 
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
+            EventManager.Instance.RemoveListener<InputResetLevelEvent>(this.OnInputResetLevel);
         }
     }
 
@@ -44,14 +46,18 @@ public class Breakout : MonoBehaviour
     [ContextMenu("Get bricks")]
     public void GetBricks()
     {
-        this.bricks = new List<SpriteRenderer>();
+        this.bricks = new List<Brick>();
         GameObject[] bricksObjects = GameObject.FindGameObjectsWithTag("Brick");
+        Brick tempBrick = null;
         for (int i = 0; i < bricksObjects.Length; i++)
         {
-            this.bricks.Add(bricksObjects[i].GetComponent<SpriteRenderer>());
+            tempBrick = bricksObjects[i].GetComponent<Brick>();
+            if (tempBrick == null)
+                tempBrick = bricksObjects[i].AddComponent<Brick>();
+            this.bricks.Add(tempBrick);
+            this.bricks[i].SetBrickId(i);
         }
     }
-
 
     #region Events
     private void OnChangeColor(ChangeColorEvent e)
@@ -63,7 +69,7 @@ public class Breakout : MonoBehaviour
         {
             for (int i = 0; i < this.walls.Length; i++)
             {
-                this.walls[i].color = Settings.EFFECT_SCREEN_COLORS ? this.wallsColor : Color.white;
+                this.walls[i].ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.wallsColor : Color.white);
             }
         }
 
@@ -71,7 +77,16 @@ public class Breakout : MonoBehaviour
         {
             for (int i = 0; i < this.bricks.Count; i++)
             {
-                this.bricks[i].color = Settings.EFFECT_SCREEN_COLORS ? this.bricksColor : Color.white;
+                this.bricks[i].ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.bricksColor: Color.white);
+            }
+        }
+    }
+
+    private void OnInputResetLevel(InputResetLevelEvent e)
+    {
+        if (this.bricks != null) {
+            for (int i = 0; i < this.bricks.Count; i++) {
+                this.bricks[i].ResetElement();
             }
         }
     }
