@@ -5,6 +5,9 @@ using DG.Tweening;
 
 public class Breakout : MonoBehaviour
 {
+
+    public static Breakout Instance;
+
     //Components
     [SerializeField]
     private Camera mainCamera;
@@ -22,12 +25,26 @@ public class Breakout : MonoBehaviour
     private Color wallsColor = Color.green;
 
 
+    #region Getters & Setters
+    public Camera GetCamera()
+    {
+        if (this.mainCamera == null)
+            this.mainCamera = Camera.main;
+        return this.mainCamera;
+    }
+
+    public Vector3 GetCameraPosition()
+    {
+        return this.mainCamera.transform.position;
+    }
+    #endregion Getters & Setters
 
 
     private void Start()
     {
-        //TODo: move this to event
-        this.EnterTweening();
+        Instance = this;
+
+        this.Init();
 
         //Add events
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
@@ -42,6 +59,16 @@ public class Breakout : MonoBehaviour
         }
     }
 
+
+    private void Init()
+    {
+        if (this.bricks == null || this.bricks.Count == 0)
+            this.GetBricks();
+
+        for (int i = 0; i < this.bricks.Count; i++) {
+            this.bricks[i].Init();
+        }
+    }
 
     [ContextMenu("Get bricks")]
     public void GetBricks()
@@ -92,21 +119,6 @@ public class Breakout : MonoBehaviour
     }
 
     #endregion Events
-
-
-    private void EnterTweening()
-    {
-        Vector3 maxCamPosY = Vector3.up * (this.GetCameraWorldSize().y + this.mainCamera.transform.position.y);
-
-        if (this.bricks != null)
-        {
-            for (int i = 0; i < this.bricks.Count; i++)
-            {
-                this.bricks[i].transform.DOMove(this.bricks[i].transform.position, 0.6f).From(maxCamPosY + this.bricks[i].transform.position, true);
-            }
-        }
-    }
-
 
 
     #region Utils

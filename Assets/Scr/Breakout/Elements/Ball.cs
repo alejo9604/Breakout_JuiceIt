@@ -6,7 +6,7 @@ using UnityEngine;
 public class Ball : BreakoutElement
 {
 
-    private const float INIT_POS_Y = -1.77f;
+    private const float INIT_POS_Y = -0.73f;
 
     [Header("Movement")]
     [SerializeField]

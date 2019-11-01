@@ -10,7 +10,15 @@ public class Settings
 
     //Color
     public static bool EFFECT_SCREEN_COLORS = false;
-    
+
+    //Tweening
+    public static bool IS_TWEENING_ENABLE = false;
+    public static bool TWEENING_Y_AT_START = false;
+    public static bool TWEENING_ROTATION_AT_START = false;
+
+    public const float TWEENING_ENTER_TIME = 0.45f;
+    public const float TWEENING_ROTATION_MAX_ANGLE = 120;
+    public const float TWEENING_ROTATION_MIN_ANGLE = 20f;
 
     public static Vector2 BallMinVelocity() {
         return new Vector2(BALL_MIN_VELOCITY, BALL_MIN_VELOCITY);

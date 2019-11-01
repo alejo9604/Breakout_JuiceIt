@@ -33,6 +33,7 @@ public class HUDSettings : MonoBehaviour
 
 
     #region ButtonActions
+    //Color
     public void ToogleScreenColor(bool value)
     {
         Settings.EFFECT_SCREEN_COLORS = value;
@@ -40,6 +41,23 @@ public class HUDSettings : MonoBehaviour
         {
             enable = value
         });
+    }
+
+
+    //Tweening
+    public void ToogleTweeningEnable(bool value)
+    {
+        Settings.IS_TWEENING_ENABLE = value;
+    }
+
+    public void ToogleMoveYAtStart(bool value)
+    {
+        Settings.TWEENING_Y_AT_START = value;
+    }
+
+    public void ToogleRotationStart(bool value)
+    {
+        Settings.TWEENING_ROTATION_AT_START = value;
     }
     #endregion ButtonActions
 
