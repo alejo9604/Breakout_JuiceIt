@@ -6,8 +6,6 @@ using UnityEngine;
 public class Ball : BreakoutElement
 {
 
-    private const float INIT_POS_Y = -0.73f;
-
     [Header("Movement")]
     [SerializeField]
     protected float initSpeed = 5;
@@ -77,7 +75,7 @@ public class Ball : BreakoutElement
     {
         base.ResetElement();
 
-        this.transform.position = new Vector3(0, INIT_POS_Y, 0);
+        this.transform.position = this.initPosition;
         this.velocity = Random.insideUnitCircle * initSpeed;
         this.rb.velocity = this.velocity;
     }

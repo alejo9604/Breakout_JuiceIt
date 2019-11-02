@@ -59,6 +59,11 @@ public class HUDSettings : MonoBehaviour
     {
         Settings.TWEENING_ROTATION_AT_START = value;
     }
+
+    public void ToogleScaleStart(bool value)
+    {
+        Settings.TWEENING_SCALE_AT_START = value;
+    }
     #endregion ButtonActions
 
 }
