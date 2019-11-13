@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Random = UnityEngine.Random;
+using UnityEngine;
 using DG.Tweening;
 
 public class Paddle : BreakoutElement
@@ -53,6 +54,7 @@ public class Paddle : BreakoutElement
         //Movement
         this.targetPosisition.x = this.MainCamera().ScreenToWorldPoint( Input.mousePosition).x;
         this.targetPosisition.x = Mathf.Clamp(this.targetPosisition.x, -clampXPos, clampXPos);
+        this.targetPosisition.y = this.transform.position.y;
         this.transform.position = Vector3.Lerp(this.transform.position, this.targetPosisition, Time.deltaTime * speed);
     }
 
@@ -61,7 +63,13 @@ public class Paddle : BreakoutElement
     {
         base.ResetElement();
 
-        this.PlayEnterTween();
+        if (!Settings.IS_TWEENING_ENABLE) {
+            this.transform.position = this.initPosition;
+            this.transform.eulerAngles = Vector3.zero;
+        }
+        else {
+            this.PlayEnterTween();
+        }
     }
 
 
@@ -79,11 +87,18 @@ public class Paddle : BreakoutElement
     #endregion Events
 
 
-    //Tweeing
     //Tweening
     public void PlayEnterTween()
     {
         Sequence enterSequence = DOTween.Sequence();
+
+
+        if (Settings.TWEENING_DELAY_VALUE > 0) {
+            enterSequence.AppendCallback(() => this.gameObject.SetActive(false));
+            enterSequence.AppendInterval(Random.Range(0, Settings.TWEENING_DELAY_VALUE));
+            enterSequence.AppendCallback(() => this.gameObject.SetActive(true));
+            enterSequence.AppendInterval(0.1f);
+        }
 
         if (Settings.TWEENING_Y_AT_START)
             enterSequence.Join(this.PlayEnterAxisYTween());
@@ -106,7 +121,7 @@ public class Paddle : BreakoutElement
     private Tween PlayEnterAxisYTween()
     {
         Vector3 offset = Vector3.up * (Breakout.Instance.GetCameraWorldSize().y + Breakout.Instance.GetCameraPosition().y / 2);
-        return this.transform.DOMoveY(this.initPosition.y, Settings.TWEENING_ENTER_TIME).From(offset.y + this.initPosition.y, true);
+        return this.transform.DOMoveY(this.initPosition.y, Settings.TWEENING_ENTER_TIME).From(offset.y + this.initPosition.y, true).SetEase(Settings.TWEENING_EASE);
     }
 
     private Tween PlayEnterRotationTween()
@@ -115,12 +130,12 @@ public class Paddle : BreakoutElement
         if (Mathf.Abs(rotation) < Settings.TWEENING_ROTATION_MIN_ANGLE)
             rotation = Mathf.Sign(rotation) * Settings.TWEENING_ROTATION_MIN_ANGLE;
 
-        return this.transform.DORotate(Vector3.zero, Settings.TWEENING_ENTER_TIME).From(Vector3.back * rotation);
+        return this.transform.DORotate(Vector3.zero, Settings.TWEENING_ENTER_TIME).From(Vector3.back * rotation).SetEase(Settings.TWEENING_EASE);
     }
 
     private Tween PlayEnterScaleTween()
     {
-        return this.transform.DOScale(this.initScale, Settings.TWEENING_ENTER_TIME).From(this.initScale * Settings.TWEENING_SCALE_INIT_FACTOR);
+        return this.transform.DOScale(this.initScale, Settings.TWEENING_ENTER_TIME).From(this.initScale * Settings.TWEENING_SCALE_INIT_FACTOR).SetEase(Settings.TWEENING_EASE);
     }
 
 
