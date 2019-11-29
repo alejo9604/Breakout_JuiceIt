@@ -14,8 +14,9 @@ public class Paddle : BreakoutElement
     [SerializeField]
     private Color color;
 
-
     //Control var
+    [SerializeField]
+    private float move_size_x = 0;
     private Camera mainCamera;
     private Vector3 targetPosisition;
 
@@ -56,6 +57,9 @@ public class Paddle : BreakoutElement
         this.targetPosisition.x = Mathf.Clamp(this.targetPosisition.x, -clampXPos, clampXPos);
         this.targetPosisition.y = this.transform.position.y;
         this.transform.position = Vector3.Lerp(this.transform.position, this.targetPosisition, Time.deltaTime * speed);
+
+        this.move_size_x = this.transform.position.x - targetPosisition.x;
+        this.OnMovmentUpdated(this.move_size_x);
     }
 
 
@@ -70,6 +74,24 @@ public class Paddle : BreakoutElement
         else {
             this.PlayEnterTween();
         }
+    }
+
+
+    public void OnMovmentUpdated(float delta)
+    {
+        this.SetStrech(delta);
+    }
+
+    private void SetStrech(float delta)
+    {
+        //Streach
+        if (Settings.PADDLE_STRECH) {
+            delta = Mathf.Abs(delta);
+            delta = Mathf.Clamp(delta, 0, 2);
+            this.transform.localScale = this.initScale + Settings.PADDLE_STRECH_FACTOR * delta;
+        }
+        else
+            this.transform.localScale = this.initScale;
     }
 
 

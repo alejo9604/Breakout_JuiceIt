@@ -25,6 +25,12 @@ public class Settings
     public const float TWEENING_ROTATION_MIN_ANGLE = 20f;
     public const float TWEENING_SCALE_INIT_FACTOR = 0.15f;
 
+    //Strech
+    public static bool PADDLE_STRECH = true;
+
+    public static readonly Vector3 PADDLE_STRECH_FACTOR = new Vector3(1.5f, -0.75f);
+
+    //Util
     public static Vector2 BallMinVelocity() {
         return new Vector2(BALL_MIN_VELOCITY, BALL_MIN_VELOCITY);
     }

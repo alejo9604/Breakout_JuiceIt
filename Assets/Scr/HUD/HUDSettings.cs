@@ -24,6 +24,8 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Slider tweenEaseSlider;
     [SerializeField] private TextMeshProUGUI tweenEaseValue;
 
+    [Header("Strech&Squeeze")]
+    [SerializeField] private Toggle paddleStrechToggle;
 
     private void Start()
     {
@@ -56,6 +58,8 @@ public class HUDSettings : MonoBehaviour
         this.tweenDurationValue.text = Settings.TWEENING_ENTER_TIME.ToString(CultureInfo.InvariantCulture);
         this.tweenEaseSlider.value = Settings.EaseToIndex(Settings.TWEENING_EASE);
         this.tweenEaseValue.text = this.tweenEaseSlider.value.ToString(CultureInfo.InvariantCulture);
+
+        this.paddleStrechToggle.isOn = Settings.PADDLE_STRECH;
     }
 
     #region Events
@@ -122,6 +126,12 @@ public class HUDSettings : MonoBehaviour
 
         if(newEaseNumber != value)
             this.tweenEaseSlider.value = newEaseNumber;
+    }
+
+    //Strech
+    public void TogglePaddleStrech(bool value)
+    {
+        Settings.PADDLE_STRECH = value;
     }
     #endregion ButtonActions
 
