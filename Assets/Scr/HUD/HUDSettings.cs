@@ -6,6 +6,7 @@ using System.Globalization;
 public class HUDSettings : MonoBehaviour
 {
 
+    [SerializeField] private bool activeOnStart = false;
     //Control var.
     private bool isHide = true;
 
@@ -26,10 +27,13 @@ public class HUDSettings : MonoBehaviour
 
     [Header("Strech&Squeeze")]
     [SerializeField] private Toggle paddleStrechToggle;
+    [SerializeField] private Toggle ballExtraScaleOnHit;
+    [SerializeField] private Toggle ballRotationAndStrech;
 
     private void Start()
     {
-        this.gameObject.SetActive(!this.isHide);
+        if(!activeOnStart)
+            this.gameObject.SetActive(!this.isHide);
 
         this.ResetHUD();
 
@@ -46,21 +50,39 @@ public class HUDSettings : MonoBehaviour
 
     private void ResetHUD()
     {
-        this.colorToggle.isOn = Settings.EFFECT_SCREEN_COLORS;
+        this.SetToggle(this.colorToggle, Settings.EFFECT_SCREEN_COLORS);
 
-        this.tweeningEnableToggle.isOn = Settings.IS_TWEENING_ENABLE;
-        this.moveYAtStartToggle.isOn = Settings.TWEENING_Y_AT_START;
-        this.rotationAtStartToggle.isOn = Settings.TWEENING_ROTATION_AT_START;
-        this.scaleAtStartToggle.isOn = Settings.TWEENING_SCALE_AT_START;
-        this.delayOnBlocksDelaySldier.value = Settings.TWEENING_DELAY_VALUE * 10;
-        this.delayOnBlocksValue.text = Settings.TWEENING_DELAY_VALUE.ToString(CultureInfo.InvariantCulture);
-        this.tweenDurationSlider.value = Settings.TWEENING_ENTER_TIME * 10;
-        this.tweenDurationValue.text = Settings.TWEENING_ENTER_TIME.ToString(CultureInfo.InvariantCulture);
-        this.tweenEaseSlider.value = Settings.EaseToIndex(Settings.TWEENING_EASE);
-        this.tweenEaseValue.text = this.tweenEaseSlider.value.ToString(CultureInfo.InvariantCulture);
+        this.SetToggle(this.tweeningEnableToggle, Settings.IS_TWEENING_ENABLE);
+        this.SetToggle(this.moveYAtStartToggle, Settings.TWEENING_Y_AT_START);
+        this.SetToggle(this.rotationAtStartToggle, Settings.TWEENING_ROTATION_AT_START);
+        this.SetToggle(this.scaleAtStartToggle, Settings.TWEENING_SCALE_AT_START);
 
-        this.paddleStrechToggle.isOn = Settings.PADDLE_STRECH;
+        this.SetSlider(this.delayOnBlocksDelaySldier, this.delayOnBlocksValue, 
+            Settings.TWEENING_DELAY_VALUE * 10, Settings.TWEENING_DELAY_VALUE.ToString(CultureInfo.InvariantCulture));
+        this.SetSlider(this.tweenDurationSlider, this.tweenDurationValue,
+            Settings.TWEENING_ENTER_TIME * 10, Settings.TWEENING_ENTER_TIME.ToString(CultureInfo.InvariantCulture));
+        this.SetSlider(this.tweenEaseSlider, this.tweenEaseValue,
+            Settings.EaseToIndex(Settings.TWEENING_EASE), this.tweenEaseSlider.value.ToString(CultureInfo.InvariantCulture));
+
+        this.SetToggle(this.paddleStrechToggle, Settings.PADDLE_STRECH);
+        this.SetToggle(this.ballExtraScaleOnHit, Settings.BALL_EXTRA_SCALE_ON_HIT);
+        this.SetToggle(this.ballRotationAndStrech, Settings.BALL_ROTATION_AND_STRECH);
     }
+
+    private void SetToggle(Toggle toggleElement, bool value)
+    {
+        if (toggleElement != null)
+            toggleElement.isOn = value;
+    }
+
+    private void SetSlider(Slider sliderElement, TextMeshProUGUI sliderText, float value, string text)
+    {
+        if (sliderElement != null)
+            sliderElement.value = value;
+        if (sliderText != null)
+            sliderText.text = text;
+    }
+
 
     #region Events
     private void OnToggle(InputToggleSettingsEvent e)
@@ -132,6 +154,16 @@ public class HUDSettings : MonoBehaviour
     public void TogglePaddleStrech(bool value)
     {
         Settings.PADDLE_STRECH = value;
+    }
+
+    public void ToggleBallExtraScaleOnHit(bool value)
+    {
+        Settings.BALL_EXTRA_SCALE_ON_HIT = value;
+    }
+
+    public void ToggleBallRotationAndStrech(bool value)
+    {
+        Settings.BALL_ROTATION_AND_STRECH = value;
     }
     #endregion ButtonActions
 

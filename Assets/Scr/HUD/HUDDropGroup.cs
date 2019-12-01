@@ -29,6 +29,7 @@ public class HUDDropGroup : MonoBehaviour
     private void Init()
     {
         for (int i = 0; i < this.dropsMenusItems.Length; i++) {
+            this.dropsMenusItems[i].Init();
             this.dropsMenusItems[i].OnDropMenuGroupChange = this.OnDropMenuItemChanged;
         }
 

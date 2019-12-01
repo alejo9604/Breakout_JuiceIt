@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : BreakoutElement
 {
+    //Extra scale on hit
+    const float EXTRA_SCALE_ON_HIT = .35f;
+    const float EXTRA_SCALE_DECREASE_FACTOR = 15f;
+    //Strech
+    const float STRECH_FACTOR = 0.15f;
+    const float MAX_STRECH_PLUS = 0.25f;
+
 
     [Header("Movement")]
     [SerializeField]
@@ -14,6 +22,9 @@ public class Ball : BreakoutElement
     [SerializeField]
     private Color color = Color.yellow;
 
+    //Child visual
+    private Transform childTransform;
+    private Vector3 childInitScale;
 
     //Components
     private Rigidbody2D rb;
@@ -21,6 +32,11 @@ public class Ball : BreakoutElement
 
     //Control var.
     private Vector2 velocity;
+    private Vector3 scale;
+    private Vector3 rotation = Vector3.zero;
+    private float extraScale = 0;
+
+    public float angle = 0;
 
 
     public float Velocity
@@ -43,6 +59,13 @@ public class Ball : BreakoutElement
 
         this.rb = GetComponent<Rigidbody2D>();
 
+        //TODO: Create it if don't exist
+        this.childTransform = this.transform.GetChild(0);
+        this.childInitScale = this.childTransform.localScale;
+
+        //Override render
+        this.render = this.childTransform.GetComponent<SpriteRenderer>();
+
         this.ResetElement();
 
         //Add events
@@ -58,6 +81,10 @@ public class Ball : BreakoutElement
         }
     }
 
+    private void Update()
+    {
+        this.UpdateElement();
+    }
 
     private void FixedUpdate() {
         this.SetVelocity();
@@ -68,6 +95,7 @@ public class Ball : BreakoutElement
             //TODO: Use Brick script or usr Event
             collision.collider.gameObject.SetActive(false);
         }
+        this.OnHitCollision();
     }
 
     
@@ -76,8 +104,46 @@ public class Ball : BreakoutElement
         base.ResetElement();
 
         this.transform.position = this.initPosition;
+        this.transform.localScale = this.initScale;
         this.velocity = Random.insideUnitCircle * initSpeed;
         this.rb.velocity = this.velocity;
+
+        this.childTransform.localScale = this.childInitScale;
+    }
+
+
+    private void UpdateElement()
+    {
+        //Scale
+        this.scale = this.childInitScale;
+
+
+        //Rotation && Strech
+        if (Settings.BALL_ROTATION_AND_STRECH) {
+            this.angle = Mathf.Atan2(this.velocity.y, this.velocity.x) * Mathf.Rad2Deg - 90;
+            this.rotation.z = angle;
+
+            this.scale.y += Mathf.Abs(this.velocity.y) * STRECH_FACTOR;
+            this.scale.y = Mathf.Clamp(this.scale.y, this.childInitScale.y, this.childInitScale.y + MAX_STRECH_PLUS);
+            this.scale.x -= (this.scale.y - this.childInitScale.y);
+
+            this.scale.y += 0.025f;
+        }
+        else {
+            this.rotation = Vector3.zero;
+        }
+
+        //Extra scale on Hit
+        this.scale += Vector3.one * this.extraScale;
+        if (this.extraScale > 0.01f)
+            this.extraScale -= Time.deltaTime * this.extraScale * EXTRA_SCALE_DECREASE_FACTOR;
+        else
+            this.extraScale = 0;
+
+
+
+        this.childTransform.localScale = this.scale;
+        this.childTransform.localEulerAngles = this.rotation;
     }
 
     private void SetVelocity() {
@@ -99,8 +165,18 @@ public class Ball : BreakoutElement
         this.rb.velocity = this.velocity;
     }
 
+    /*
+    public Vector3 punch = Vector3.one * 0.3f;
+    public float duration = 0.5f;
+    public int vibrato = 15;
+    public float elast = 1;
+    */
 
-
+    private void OnHitCollision()
+    {
+        if(Settings.BALL_EXTRA_SCALE_ON_HIT)
+            this.extraScale += EXTRA_SCALE_ON_HIT;
+    }
 
 
     #region Events

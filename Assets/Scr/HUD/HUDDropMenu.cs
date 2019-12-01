@@ -42,9 +42,9 @@ public class HUDDropMenu : HUDItem
         this.rectTransform.anchoredPosition = new Vector2(this.rectTransform.anchoredPosition.x, yPos);
     }
 
-    private void Start()
+    public override void Init()
     {
-        this.Init();
+        base.Init();
 
         this.initSizedelta = this.rectTransform.sizeDelta;
 
