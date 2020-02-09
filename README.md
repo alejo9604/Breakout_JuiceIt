@@ -15,11 +15,11 @@ Develop on Unity 2019.1.0f2
   - ~~Duration~~
   - ~~Ease~~
 - Strech & squeeze
-  -  Paddle strech
-  -  Ball scale on hit
-  -  Ball rotate
-  -  Ball strech
-  -  Ball strech animation
+  -  ~~Paddle strech~~
+  -  ~~Ball scale on hit~~
+  -  ~~Ball rotate~~
+  -  ~~Ball strech~~
+  -  ~~Ball strech animation~~
   -  Ball glow on hit
   -  Ball gravity
   -  Block jelly
