@@ -7,10 +7,12 @@ using DG.Tweening;
 public class Ball : BreakoutElement
 {
     //Extra scale on hit
-    const float EXTRA_SCALE_ON_HIT = .35f;
+    const float EXTRA_SCALE_ON_HIT = .4f;
+    const float MAX_EXTRA_SCALE_ON_HIT = 1.2f;
     const float EXTRA_SCALE_DECREASE_FACTOR = 15f;
     //Strech
     const float STRECH_FACTOR = 0.15f;
+    const float EXTRA_STRECH_Y = 0.02f;
     const float MAX_STRECH_PLUS = 0.25f;
 
 
@@ -127,7 +129,7 @@ public class Ball : BreakoutElement
             this.scale.y = Mathf.Clamp(this.scale.y, this.childInitScale.y, this.childInitScale.y + MAX_STRECH_PLUS);
             this.scale.x -= (this.scale.y - this.childInitScale.y);
 
-            this.scale.y += 0.025f;
+            this.scale.y += EXTRA_STRECH_Y;
         }
         else {
             this.rotation = Vector3.zero;
@@ -174,8 +176,10 @@ public class Ball : BreakoutElement
 
     private void OnHitCollision()
     {
-        if(Settings.BALL_EXTRA_SCALE_ON_HIT)
+        if (Settings.BALL_EXTRA_SCALE_ON_HIT) {
             this.extraScale += EXTRA_SCALE_ON_HIT;
+            this.extraScale = Mathf.Clamp(this.extraScale, 0, MAX_EXTRA_SCALE_ON_HIT);
+        }
     }
 
 
