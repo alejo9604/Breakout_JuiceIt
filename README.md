@@ -7,13 +7,13 @@ Develop on Unity 2019.1.0f2
 ## Dev list
 - ~~Basic gameplay~~
 - ~~Color~~
-- Tweening (on Enter)
+- ~~Tweening (on Enter)~~
   - ~~Y down~~
-  - Rotation
-  - Scale
-  - Delay
-  - Duration
-  - Ease
+  - ~~Rotation~~
+  - ~~Scale~~
+  - ~~Delay~~
+  - ~~Duration~~
+  - ~~Ease~~
 - Strech & squeeze
   -  Paddle strech
   -  Ball scale on hit
