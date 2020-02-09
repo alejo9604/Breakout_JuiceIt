@@ -13,7 +13,10 @@ public class Ball : BreakoutElement
     //Strech
     const float STRECH_FACTOR = 0.15f;
     const float EXTRA_STRECH_Y = 0.02f;
-    const float MAX_STRECH_PLUS = 0.25f;
+    const float MAX_STRECH_PLUS = 0.2f;
+    //Animation Strech
+    const float ANIMATION_STRECH_PLUS = 0.5f;
+    const float ANIMATION_STRECH_DURATION = 0.55f;
 
 
     [Header("Movement")]
@@ -38,7 +41,10 @@ public class Ball : BreakoutElement
     private Vector3 rotation = Vector3.zero;
     private float extraScale = 0;
 
-    public float angle = 0;
+    private float angle = 0;
+
+    private Tween punchTween;
+    private Vector3 punchShakiness;
 
 
     public float Velocity
@@ -135,6 +141,12 @@ public class Ball : BreakoutElement
             this.rotation = Vector3.zero;
         }
 
+
+        if (Settings.BALL_STRECH_ON_HIT) {
+            this.scale.x += this.punchShakiness.x;
+            this.scale.y += this.punchShakiness.y;
+        }
+
         //Extra scale on Hit
         this.scale += Vector3.one * this.extraScale;
         if (this.extraScale > 0.01f)
@@ -179,6 +191,17 @@ public class Ball : BreakoutElement
         if (Settings.BALL_EXTRA_SCALE_ON_HIT) {
             this.extraScale += EXTRA_SCALE_ON_HIT;
             this.extraScale = Mathf.Clamp(this.extraScale, 0, MAX_EXTRA_SCALE_ON_HIT);
+        }
+
+        if(this.punchTween != null && (this.punchTween.IsActive() || this.punchTween.IsPlaying())) {
+            this.punchTween.Complete();
+            this.punchTween.Kill();
+            this.punchTween = null;
+        }
+
+        if (Settings.BALL_STRECH_ON_HIT) {
+            this.punchShakiness = Vector3.zero;
+            this.punchTween = DOTween.Punch(() => this.punchShakiness, x => this.punchShakiness = x, Vector3.one * ANIMATION_STRECH_PLUS, ANIMATION_STRECH_DURATION);
         }
     }
 

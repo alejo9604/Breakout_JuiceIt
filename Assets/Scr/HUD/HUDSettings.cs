@@ -29,6 +29,7 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Toggle paddleStrechToggle;
     [SerializeField] private Toggle ballExtraScaleOnHit;
     [SerializeField] private Toggle ballRotationAndStrech;
+    [SerializeField] private Toggle ballStrechOnHit;
 
     private void Start()
     {
@@ -67,6 +68,7 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.paddleStrechToggle, Settings.PADDLE_STRECH);
         this.SetToggle(this.ballExtraScaleOnHit, Settings.BALL_EXTRA_SCALE_ON_HIT);
         this.SetToggle(this.ballRotationAndStrech, Settings.BALL_ROTATION_AND_STRECH);
+        this.SetToggle(this.ballStrechOnHit, Settings.BALL_STRECH_ON_HIT);
     }
 
     private void SetToggle(Toggle toggleElement, bool value)
@@ -164,6 +166,11 @@ public class HUDSettings : MonoBehaviour
     public void ToggleBallRotationAndStrech(bool value)
     {
         Settings.BALL_ROTATION_AND_STRECH = value;
+    }
+
+    public void ToggleBallStretchOnHit(bool value)
+    {
+        Settings.BALL_STRECH_ON_HIT = value;
     }
     #endregion ButtonActions
 
