@@ -17,6 +17,8 @@ public class Ball : BreakoutElement
     //Animation Strech
     const float ANIMATION_STRECH_PLUS = 0.5f;
     const float ANIMATION_STRECH_DURATION = 0.55f;
+    //Glow
+    const float GLOW_DURATION = 0.35f;
 
 
     [Header("Movement")]
@@ -26,6 +28,8 @@ public class Ball : BreakoutElement
     [Header("Visuals")]
     [SerializeField]
     private Color color = Color.yellow;
+    [SerializeField]
+    private Color glowColor = Color.white;
 
     //Child visual
     private Transform childTransform;
@@ -47,14 +51,15 @@ public class Ball : BreakoutElement
     private Vector3 punchShakiness;
 
 
+    protected Color GetColor()
+    {
+        return Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white;
+    }
+
     public float Velocity
     {
-        get
-        {
-            return velocity.magnitude;
-        }
-        set
-        {
+        get { return velocity.magnitude; }
+        set {
             float ratio = value / this.Velocity;
             velocity *= ratio;
         }
@@ -179,12 +184,6 @@ public class Ball : BreakoutElement
         this.rb.velocity = this.velocity;
     }
 
-    /*
-    public Vector3 punch = Vector3.one * 0.3f;
-    public float duration = 0.5f;
-    public int vibrato = 15;
-    public float elast = 1;
-    */
 
     private void OnHitCollision()
     {
@@ -203,13 +202,16 @@ public class Ball : BreakoutElement
             this.punchShakiness = Vector3.zero;
             this.punchTween = DOTween.Punch(() => this.punchShakiness, x => this.punchShakiness = x, Vector3.one * ANIMATION_STRECH_PLUS, ANIMATION_STRECH_DURATION);
         }
+
+        if (Settings.BALL_GLOW_ON_HIT)
+            this.OnGlowColor(this.glowColor, this.GetColor(), GLOW_DURATION);
     }
 
 
     #region Events
     private void OnChangeColor(ChangeColorEvent e)
     {
-        this.ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white);
+        this.ChangeColor(this.GetColor());
     }
 
     private void OnInputResetLevel(InputResetLevelEvent e)

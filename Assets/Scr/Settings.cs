@@ -31,6 +31,9 @@ public class Settings
     public static bool BALL_ROTATION_AND_STRECH = false;
     public static bool BALL_STRECH_ON_HIT = false;
 
+    //Glow
+    public static bool BALL_GLOW_ON_HIT = false;
+
     public static readonly Vector3 PADDLE_STRECH_FACTOR = new Vector3(1.5f, -0.75f);
 
     //Util

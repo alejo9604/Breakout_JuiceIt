@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class BreakoutElement : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class BreakoutElement : MonoBehaviour
     //Control vars
     protected Vector3 initPosition;
     protected Vector3 initScale;
+
+    //Glow
+    protected Tween glowTween;
 
     protected virtual void Start()
     {
@@ -27,4 +31,17 @@ public class BreakoutElement : MonoBehaviour
         this.render.color = color;
     }
 
+    public virtual void OnGlowColor(Color glowColor, Color initColor, float duration, Ease ease = Ease.InBack)
+    {
+        if (this.render == null)
+            return;
+
+        if(this.glowTween != null && (this.glowTween.IsActive() || this.glowTween.IsPlaying())) {
+            this.glowTween.Complete();
+            this.glowTween.Kill();
+            this.glowTween = null;
+        }
+
+        this.glowTween = this.render.DOColor(initColor, duration).From(glowColor).SetEase(ease);
+    }
 }
