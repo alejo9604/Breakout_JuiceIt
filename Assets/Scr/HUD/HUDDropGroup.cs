@@ -5,7 +5,7 @@ using UnityEngine;
 public class HUDDropGroup : MonoBehaviour
 {
 
-    public HUDDropMenu[] dropsMenusItems;
+    private HUDDropMenu[] dropsMenusItems;
 
     [Range(0, 15)]
     public float spacing = 5;
@@ -28,6 +28,7 @@ public class HUDDropGroup : MonoBehaviour
 
     private void Init()
     {
+        this.dropsMenusItems = this.GetComponentsInChildren<HUDDropMenu>();
         for (int i = 0; i < this.dropsMenusItems.Length; i++) {
             this.dropsMenusItems[i].Init();
             this.dropsMenusItems[i].OnDropMenuGroupChange = this.OnDropMenuItemChanged;
