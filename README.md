@@ -21,7 +21,7 @@ Develop on Unity 2019.1.0f2
   -  ~~Ball strech~~
   -  ~~Ball strech animation~~
   -  ~~Ball glow on hit~~
-  -  Ball gravity
+  -  ~~Ball gravity~~
   -  Block jelly
   -  Bouncy lines
 -  Sounds
