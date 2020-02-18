@@ -170,11 +170,13 @@ public class Ball : BreakoutElement
         this.velocity = rb.velocity;
         float currentVelocity = this.Velocity;
 
+        this.velocity.y -= Settings.BALL_GRAVITY * Time.deltaTime;
+
         if (currentVelocity < Settings.BALL_MIN_VELOCITY)
             this.Velocity = Settings.BALL_MIN_VELOCITY;
         else if(currentVelocity > Settings.BALL_MAX_VELOCITY)
             this.Velocity -= currentVelocity * Settings.BALL_VELOCITY_LOSS * Time.deltaTime;
-
+        
         if(Mathf.Abs(this.velocity.x) < Settings.BALL_VELOCITY_MIN_AXIS_VALUE) {
             this.velocity.x += Mathf.Sign(this.velocity.x) * Settings.BALL_VELOCITY_MIN_AXIS_VALUE * Time.deltaTime;
         }

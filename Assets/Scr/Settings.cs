@@ -4,9 +4,9 @@ using UnityEngine;
 public class Settings
 {
     //Ball
-    public static float BALL_MIN_VELOCITY = 8;
-    public static float BALL_MAX_VELOCITY = 10;
-    public static float BALL_VELOCITY_LOSS = .01f;
+    public static float BALL_MIN_VELOCITY = 5;
+    public static float BALL_MAX_VELOCITY = 8;
+    public static float BALL_VELOCITY_LOSS = .1f;
     public static float BALL_VELOCITY_MIN_AXIS_VALUE = 0.5f;
 
     //Color
@@ -33,6 +33,9 @@ public class Settings
 
     //Glow
     public static bool BALL_GLOW_ON_HIT = false;
+
+    //Gravity
+    public static float BALL_GRAVITY = 0;
 
     public static readonly Vector3 PADDLE_STRECH_FACTOR = new Vector3(1.5f, -0.75f);
 
