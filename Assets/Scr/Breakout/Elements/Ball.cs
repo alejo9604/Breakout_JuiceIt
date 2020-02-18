@@ -18,7 +18,7 @@ public class Ball : BreakoutElement
     const float ANIMATION_STRECH_PLUS = 0.5f;
     const float ANIMATION_STRECH_DURATION = 0.55f;
     //Glow
-    const float GLOW_DURATION = 0.35f;
+    const float GLOW_DURATION = 0.2f;
 
 
     [Header("Movement")]
@@ -30,6 +30,7 @@ public class Ball : BreakoutElement
     private Color color = Color.yellow;
     [SerializeField]
     private Color glowColor = Color.white;
+
 
     //Child visual
     private Transform childTransform;
@@ -204,7 +205,7 @@ public class Ball : BreakoutElement
         }
 
         if (Settings.BALL_GLOW_ON_HIT)
-            this.OnGlowColor(this.glowColor, this.GetColor(), GLOW_DURATION);
+            this.OnGlowColor(this.glowColor, this.GetColor(), GLOW_DURATION, Ease.InCubic);
     }
 
 

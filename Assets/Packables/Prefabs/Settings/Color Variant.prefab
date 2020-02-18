@@ -115,12 +115,12 @@ PrefabInstance:
     - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 6
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
         type: 3}
@@ -130,6 +130,16 @@ PrefabInstance:
     - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
         type: 3}
       propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
+        type: 3}
+      propertyPath: m_text
+      value: Color enable
+      objectReference: {fileID: 0}
+    - target: {fileID: 3646311908848749588, guid: 40dc2d0489eec5e4ab5dc9dc17011515,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -144,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 5349516492135520444, guid: 608c668802505c94596c8c5284fcd823,
         type: 3}
       propertyPath: m_Name
-      value: Color
+      value: Color Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5349516492135520445, guid: 608c668802505c94596c8c5284fcd823,
         type: 3}
