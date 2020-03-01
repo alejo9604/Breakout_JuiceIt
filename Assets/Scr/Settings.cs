@@ -30,6 +30,8 @@ public class Settings
     public static bool BALL_EXTRA_SCALE_ON_HIT = false;
     public static bool BALL_ROTATION_AND_STRECH = false;
     public static bool BALL_STRECH_ON_HIT = false;
+    public static bool BLOCK_JELLY = false;
+
 
     //Glow
     public static bool BALL_GLOW_ON_HIT = false;

@@ -39,6 +39,7 @@ public class Paddle : BreakoutElement
 
         //Add events
         EventManager.Instance.AddListener<InputResetLevelEvent>(this.OnInputResetLevel);
+        EventManager.Instance.AddListener<BallCollisionEvent>(this.OnBallCollision);
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
     }
 
@@ -46,6 +47,7 @@ public class Paddle : BreakoutElement
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<InputResetLevelEvent>(this.OnInputResetLevel);
+            EventManager.Instance.RemoveListener<BallCollisionEvent>(this.OnBallCollision);
             EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
         }
     }
@@ -105,6 +107,12 @@ public class Paddle : BreakoutElement
     private void OnChangeColor(ChangeColorEvent e)
     {
         this.ChangeColor(Settings.EFFECT_SCREEN_COLORS ? this.color : Color.white);
+    }
+
+    private void OnBallCollision(BallCollisionEvent e)
+    {
+        if(Settings.BLOCK_JELLY)
+            this.OnJellyEffect();
     }
     #endregion Events
 

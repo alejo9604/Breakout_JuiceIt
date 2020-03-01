@@ -48,6 +48,7 @@ public class Breakout : MonoBehaviour
 
         //Add events
         EventManager.Instance.AddListener<ChangeColorEvent>(this.OnChangeColor);
+        EventManager.Instance.AddListener<BallCollisionEvent>(this.OnBallCollision);
         EventManager.Instance.AddListener<InputResetLevelEvent>(this.OnInputResetLevel);
     }
 
@@ -55,6 +56,7 @@ public class Breakout : MonoBehaviour
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<ChangeColorEvent>(this.OnChangeColor);
+            EventManager.Instance.RemoveListener<BallCollisionEvent>(this.OnBallCollision);
             EventManager.Instance.RemoveListener<InputResetLevelEvent>(this.OnInputResetLevel);
         }
     }
@@ -116,6 +118,14 @@ public class Breakout : MonoBehaviour
                 this.bricks[i].ResetElement();
             }
         }
+    }
+
+    private void OnBallCollision(BallCollisionEvent e)
+    {
+        if (Settings.BLOCK_JELLY)
+            for (int i = 0; i < this.bricks.Count; i++) {    
+                this.bricks[i].OnJellyEffect(0.2f, Random.value * 0.02f);
+            }
     }
 
     #endregion Events

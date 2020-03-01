@@ -33,6 +33,7 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Toggle ballGlowOnHit;
     [SerializeField] private Slider ballGravitySlider;
     [SerializeField] private TextMeshProUGUI ballGravityValue;
+    [SerializeField] private Toggle blocksJellyOnHit;
 
     private void Start()
     {
@@ -74,6 +75,8 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.ballStrechOnHit, Settings.BALL_STRECH_ON_HIT);
         this.SetToggle(this.ballGlowOnHit, Settings.BALL_GLOW_ON_HIT);
         this.SetSlider(this.ballGravitySlider, this.ballGravityValue, Settings.BALL_GRAVITY, Settings.BALL_GRAVITY.ToString());
+        this.SetToggle(this.blocksJellyOnHit, Settings.BLOCK_JELLY);
+
     }
 
     private void SetToggle(Toggle toggleElement, bool value)
@@ -187,6 +190,11 @@ public class HUDSettings : MonoBehaviour
     {
         Settings.BALL_GRAVITY = value;
         this.ballGravityValue.text = Settings.BALL_GRAVITY.ToString();
+    }
+
+    public void ToggleBlocksJellyOnHit(bool value)
+    {
+        Settings.BLOCK_JELLY = value;
     }
     #endregion ButtonActions
 

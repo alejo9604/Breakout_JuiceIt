@@ -109,6 +109,9 @@ public class Ball : BreakoutElement
             //TODO: Use Brick script or usr Event
             collision.collider.gameObject.SetActive(false);
         }
+
+        EventManager.Instance.Trigger(new BallCollisionEvent());
+
         this.OnHitCollision();
     }
 
