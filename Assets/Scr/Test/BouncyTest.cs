@@ -91,8 +91,8 @@ public class BouncyTest : MonoBehaviour
     {
         if (Mathf.Abs(value.x) >= minValue) {
 
-            this.velocity += -this.bounceSpeed * value * Time.deltaTime;
-            this.velocity -= this.bounciness * this.velocity * Time.deltaTime;
+            this.velocity += -this.bounceSpeed * value / Time.deltaTime;
+            this.velocity -= this.bounciness * this.velocity;
 
             this.time += Time.deltaTime;
         }
