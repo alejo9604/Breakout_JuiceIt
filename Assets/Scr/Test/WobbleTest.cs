@@ -79,8 +79,8 @@ public class WobbleTest : MonoBehaviour
         delta *= (length * 0.5f);
         this.pos_middle = p1.position + delta;
 
-
-        Vector2 point = new Vector2(this.ball.position.x + STRENGHT * this.ballSpeed.x, this.ball.position.y + STRENGHT * this.ballSpeed.y);
+        Vector3 ballSpeedNormalize = this.ballSpeed.normalized;
+        Vector2 point = new Vector2(this.ball.position.x + STRENGHT * ballSpeedNormalize.x, this.ball.position.y + STRENGHT * ballSpeedNormalize.y);
         this.Wobble(point);
         
     }

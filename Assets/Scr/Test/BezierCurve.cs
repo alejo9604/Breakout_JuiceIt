@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * Base on http://www.theappguruz.com/blog/bezier-curve-in-games
+ */
+
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
