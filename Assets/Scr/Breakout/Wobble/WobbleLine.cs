@@ -34,13 +34,16 @@ public class WobbleLine : MonoBehaviour
     public Vector2 GetMiddlePoint() { return this.wobbleMiddlePoint; }
 
 
-    private void Awake()
+    private void Start()
     {
-        this.curve = this.GetComponent<BezierCurve>();
+        this.Init();
     }
 
     public void Init()
     {
+        if(this.curve == null)
+            this.curve = this.GetComponent<BezierCurve>();
+
         Vector2 delta = this.endPoint - this.initPoint;
         float length = delta.magnitude;
         delta = delta.normalized;
@@ -97,5 +100,18 @@ public class WobbleLine : MonoBehaviour
         this.SetWobbleInitPoint( new Vector2(point.x + this.wobbleStrenght * velNormalize.x, point.y + this.wobbleStrenght * velNormalize.y));
     }
 
+
+
+    public void ChangeColor(Color color)
+    {
+        this.curve?.SetColor(color);
+    }
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(this.initPoint, this.endPoint);
+    }
 
 }

@@ -13,6 +13,9 @@ public class BreakoutElement : MonoBehaviour
     //Glow
     protected Tween glowTween;
 
+    //Jelly
+    protected Sequence jellySequence;
+
     protected virtual void Start()
     {
         this.render = GetComponent<SpriteRenderer>();
@@ -32,6 +35,9 @@ public class BreakoutElement : MonoBehaviour
 
     public virtual void ChangeColor(Color color)
     {
+        if (this.render == null)
+            return;
+
         this.render.color = color;
     }
 
@@ -49,25 +55,24 @@ public class BreakoutElement : MonoBehaviour
         this.glowTween = this.render.DOColor(initColor, duration).From(glowColor).SetEase(ease);
     }
 
-    Sequence seq;
 
     public virtual void OnJellyEffect(float strength = 0.2f, float delay = 0)
     {
-        if(seq != null && seq.IsActive() && seq.IsPlaying()) {
-            seq.Complete();
-            seq.Kill();
-            seq = null;
+        if(jellySequence != null && jellySequence.IsActive() && jellySequence.IsPlaying()) {
+            jellySequence.Complete();
+            jellySequence.Kill();
+            jellySequence = null;
         }
 
-        seq = DOTween.Sequence();
+        jellySequence = DOTween.Sequence();
         if (delay > 0)
-            seq.AppendInterval(delay);
-        seq.Append(this.transform.DOScaleX(this.initScale.x + strength, 0.05f).SetEase(Ease.InOutQuad));
-        seq.Append(this.transform.DOScaleX(this.initScale.x, 0.6f).SetEase(Ease.OutElastic));
+            jellySequence.AppendInterval(delay);
+        jellySequence.Append(this.transform.DOScaleX(this.initScale.x + strength, 0.05f).SetEase(Ease.InOutQuad));
+        jellySequence.Append(this.transform.DOScaleX(this.initScale.x, 0.6f).SetEase(Ease.OutElastic));
 
-        seq.Insert(0.05f + delay, this.transform.DOScaleY(this.initScale.y + strength, 0.05f).SetEase(Ease.InOutQuad));
-        seq.Insert(0.1f + delay, this.transform.DOScaleY(this.initScale.y, 0.6f).SetEase(Ease.OutElastic));
+        jellySequence.Insert(0.05f + delay, this.transform.DOScaleY(this.initScale.y + strength, 0.05f).SetEase(Ease.InOutQuad));
+        jellySequence.Insert(0.1f + delay, this.transform.DOScaleY(this.initScale.y, 0.6f).SetEase(Ease.OutElastic));
 
-        seq.AppendCallback(this.ResetLocalScale);
+        jellySequence.AppendCallback(this.ResetLocalScale);
     }
 }

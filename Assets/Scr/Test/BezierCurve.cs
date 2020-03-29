@@ -12,6 +12,13 @@ public class BezierCurve : MonoBehaviour
 
     private Vector3[] point;
 
+    public void SetColor(Color color) {
+        if (this.line == null)
+            return;
+        this.line.endColor = color; 
+        this.line.startColor = color; 
+    }
+
     private void Awake()
     {
         this.line = this.GetComponent<LineRenderer>();
