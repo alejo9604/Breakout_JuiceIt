@@ -24,10 +24,11 @@ public class BezierCurve : MonoBehaviour
         if (this.numPoint != this.point.Length)
             this.point = new Vector3[this.numPoint];
         float t = 0;
-        for (int i = 0; i < numPoint; i++) {
+        for (int i = 0; i < numPoint - 1; i++) {
             t = i / (float)this.numPoint;
             this.point[i] = this.GetLineaBezierPoint(t, p0, p1);
         }
+        this.point[numPoint - 1] = p1;
         this.line.positionCount = this.numPoint;
         this.line.SetPositions(this.point);
     }
@@ -38,10 +39,11 @@ public class BezierCurve : MonoBehaviour
         if(this.numPoint != this.point.Length)
             this.point = new Vector3[this.numPoint];
         float t = 0;
-        for (int i = 0; i < numPoint; i++) {
+        for (int i = 0; i < numPoint - 1; i++) {
             t = i / (float)this.numPoint;
             this.point[i] = this.GetQuadraticBezierPoint(t, p0, p1, p2);
         }
+        this.point[numPoint - 1] = p2;
         this.line.positionCount = this.numPoint;
         this.line.SetPositions(this.point);
     }
