@@ -34,6 +34,7 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Slider ballGravitySlider;
     [SerializeField] private TextMeshProUGUI ballGravityValue;
     [SerializeField] private Toggle blocksJellyOnHit;
+    [SerializeField] private Toggle bouncyLinesOnHit;
 
     private void Start()
     {
@@ -76,6 +77,7 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.ballGlowOnHit, Settings.BALL_GLOW_ON_HIT);
         this.SetSlider(this.ballGravitySlider, this.ballGravityValue, Settings.BALL_GRAVITY, Settings.BALL_GRAVITY.ToString());
         this.SetToggle(this.blocksJellyOnHit, Settings.BLOCK_JELLY);
+        this.SetToggle(this.bouncyLinesOnHit, Settings.BOUNCY_LINES_ENABLED);
 
     }
 
@@ -195,6 +197,15 @@ public class HUDSettings : MonoBehaviour
     public void ToggleBlocksJellyOnHit(bool value)
     {
         Settings.BLOCK_JELLY = value;
+    }
+
+    public void ToggleBouncyLinesOnHit(bool value)
+    {
+        Settings.BOUNCY_LINES_ENABLED = value;
+        EventManager.Instance.Trigger(new InputToggleBouncyLinesEvent
+        {
+            enabled = Settings.BOUNCY_LINES_ENABLED
+        });
     }
     #endregion ButtonActions
 

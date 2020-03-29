@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class BezierCurve : MonoBehaviour
 {
-    private LineRenderer line;
+    [SerializeField] private LineRenderer line;
     [SerializeField] private int numPoint = 50;
 
     private Vector3[] point;

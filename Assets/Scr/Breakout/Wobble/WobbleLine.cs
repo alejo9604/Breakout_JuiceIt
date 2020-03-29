@@ -24,6 +24,7 @@ public class WobbleLine : MonoBehaviour
     private Vector2 middlePoint;
 
     //Control var.
+    private bool wobbleEnable = true;
     private float lineRotation;
     private Vector2 wobbleMiddlePoint;
 
@@ -33,6 +34,10 @@ public class WobbleLine : MonoBehaviour
     public Vector2 GetMiddlePointOnCenter() { return this.wobbleMiddlePointOnCenter; }
     public Vector2 GetMiddlePoint() { return this.wobbleMiddlePoint; }
 
+    public void EnableWobble(bool enable)
+    {
+        this.wobbleEnable = enable;
+    }
 
     private void Start()
     {
@@ -77,7 +82,11 @@ public class WobbleLine : MonoBehaviour
 
         this.wobbleMiddlePointOnCenter += this.wobbleVelocity;
         this.wobbleMiddlePoint = this.GetMiddleWobblePoint();
-        this.curve.Draw(this.initPoint, this.wobbleMiddlePoint, this.endPoint);
+
+        if(this.wobbleEnable)
+            this.curve.Draw(this.initPoint, this.wobbleMiddlePoint, this.endPoint);
+        else
+            this.curve.Draw(this.initPoint, this.endPoint);
     }
 
     private void SetWobbleInitPoint(Vector2 point)
@@ -108,9 +117,9 @@ public class WobbleLine : MonoBehaviour
     }
 
 
-
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.cyan;
         Gizmos.DrawLine(this.initPoint, this.endPoint);
     }
 
