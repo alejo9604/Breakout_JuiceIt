@@ -14,9 +14,9 @@ public class Ball : BreakoutElement
     const float STRECH_FACTOR = 0.15f;
     const float EXTRA_STRECH_Y = 0.02f;
     const float MAX_STRECH_PLUS = 0.2f;
-    //Animation Strech
+    //Punch
+    const float PUNCH_MIN_VALUE = 0.001f;
     const float ANIMATION_STRECH_PLUS = 0.5f;
-    const float ANIMATION_STRECH_DURATION = 0.55f;
     //Glow
     const float GLOW_DURATION = 0.2f;
 
@@ -48,8 +48,11 @@ public class Ball : BreakoutElement
 
     private float angle = 0;
 
-    private Tween punchTween;
-    private Vector3 punchShakiness;
+    //private Tween punchTween;
+    private float punch;
+    private float punchShakiness = 0.85f;
+    private float punchSpeed = 0.25f;
+    private float punchVelocity;
 
 
     protected Color GetColor()
@@ -158,10 +161,21 @@ public class Ball : BreakoutElement
             this.rotation = Vector3.zero;
         }
 
+        //Punch/Animation Strech
+        if (Mathf.Abs(this.punch) >= PUNCH_MIN_VALUE) {
+            this.punchVelocity += -this.punchSpeed * this.punch;
+            this.punchVelocity *= this.punchShakiness;
+        }
+        else {
+            this.punch = 0;
+            this.punchVelocity = 0;
+        }
+        this.punch += this.punchVelocity;
+
 
         if (Settings.BALL_STRECH_ON_HIT) {
-            this.scale.x += this.punchShakiness.x;
-            this.scale.y += this.punchShakiness.y;
+            this.scale.x += this.punch;
+            this.scale.y += this.punch;
         }
 
         //Extra scale on Hit
@@ -206,16 +220,7 @@ public class Ball : BreakoutElement
             this.extraScale = Mathf.Clamp(this.extraScale, 0, MAX_EXTRA_SCALE_ON_HIT);
         }
 
-        if(this.punchTween != null && (this.punchTween.IsActive() || this.punchTween.IsPlaying())) {
-            this.punchTween.Complete();
-            this.punchTween.Kill();
-            this.punchTween = null;
-        }
-
-        if (Settings.BALL_STRECH_ON_HIT) {
-            this.punchShakiness = Vector3.zero;
-            this.punchTween = DOTween.Punch(() => this.punchShakiness, x => this.punchShakiness = x, Vector3.one * ANIMATION_STRECH_PLUS, ANIMATION_STRECH_DURATION);
-        }
+        this.punch = ANIMATION_STRECH_PLUS;
 
         if (Settings.BALL_GLOW_ON_HIT)
             this.OnGlowColor(this.glowColor, this.GetColor(), GLOW_DURATION, Ease.InCubic);
