@@ -41,7 +41,7 @@ public class HUDDropGroup : MonoBehaviour
         if (!this.isFirstTime)
             return;
 
-        this.isFirstTime = true;
+        this.isFirstTime = false;
 
         if (this.dropsMenusItems.Length > 0)
             this.dropsMenusItems[0].SetIsCollapse(false);
