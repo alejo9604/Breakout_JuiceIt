@@ -108,21 +108,20 @@ public class Ball : BreakoutElement
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.tag == "Brick") {
-            //TODO: Use Brick script or usr Event
-            collision.collider.gameObject.SetActive(false);
-        }
 
-        else if (collision.collider.tag == "Wall") {
+        BreakoutElement otherCollider;
+        if (!collision.collider.TryGetComponent<BreakoutElement>(out otherCollider))
+            return;
 
-            collision.collider.GetComponent<Wall>().OnCollision(collision.contacts[0].point, this.velocity);
+        //TODO: Use Brick script or usr Event?
+        if (otherCollider is Brick)
+            otherCollider.OnCollision();
 
-        }
+        else if (otherCollider is Wall)
+            otherCollider.OnCollision(collision.contacts[0].point, this.velocity);
 
 
-        //TODO: use event to send collision data
         EventManager.Instance.Trigger(new BallCollisionEvent());
-
         this.OnHitCollision();
     }
 

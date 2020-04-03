@@ -36,6 +36,11 @@ public class Brick : BreakoutElement
         }
     }
 
+    public override void OnCollision()
+    {
+        base.OnCollision();
+        this.gameObject.SetActive(false);
+    }
 
 
     //Tweening
