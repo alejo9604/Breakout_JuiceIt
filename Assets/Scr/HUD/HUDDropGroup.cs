@@ -26,6 +26,7 @@ public class HUDDropGroup : MonoBehaviour
             EventManager.Instance.RemoveListener<InputToggleSettingsEvent>(this.CheckFirstTime);
     }
 
+    [ContextMenu("Init")]
     private void Init()
     {
         this.dropsMenusItems = this.GetComponentsInChildren<HUDDropMenu>();
@@ -43,11 +44,7 @@ public class HUDDropGroup : MonoBehaviour
 
         this.isFirstTime = false;
 
-        if (this.dropsMenusItems.Length > 0)
-            this.dropsMenusItems[0].SetIsCollapse(false);
-        for (int i = 1; i < this.dropsMenusItems.Length; i++) {
-            this.dropsMenusItems[i].SetIsCollapse(true);
-        }
+        this.CollapseItems(true, true);
         this.UpdateDropMenuItems();
     }
 
@@ -70,5 +67,25 @@ public class HUDDropGroup : MonoBehaviour
             pos -= this.dropsMenusItems[i].GetHeight() - this.spacing;
         }
     }
-    
+
+    private void CollapseItems(bool collapse, bool avoidFirstOne = false)
+    {
+        for (int i = 0; i < this.dropsMenusItems.Length; i++) {
+            if (avoidFirstOne && i == 0) {
+                this.dropsMenusItems[i].SetIsCollapse(!collapse);
+                continue;
+            }
+            this.dropsMenusItems[i].SetIsCollapse(collapse);
+        }
+    }
+
+
+    #region Util
+    [ContextMenu("CollapseAll")]
+    private void CollapseAll() { this.CollapseItems(true); this.UpdateDropMenuItems(); }
+
+    [ContextMenu("ExpandAll")]
+    private void ExpandAll() { this.CollapseItems(false); this.UpdateDropMenuItems(); }
+    #endregion Util
+
 }
