@@ -35,6 +35,9 @@ public class Wall : BreakoutElement
     {
         base.OnCollision(position, velocity);
         this.wobble?.OnImpact(position, velocity);
+
+        if (Settings.SOUND_WALL)
+            AudioManager.Instance.PlayWallClip();
     }
 
     #region Events

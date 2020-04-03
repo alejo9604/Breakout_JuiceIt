@@ -36,6 +36,12 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Toggle blocksJellyOnHit;
     [SerializeField] private Toggle bouncyLinesOnHit;
 
+    [Header("Sound")]
+    [SerializeField] private Toggle wallSoundToggle;
+    [SerializeField] private Toggle brickSoundToggle;
+    [SerializeField] private Toggle paddleSoundToggle;
+    [SerializeField] private Toggle musicToggle;
+
     private void Start()
     {
         if(!activeOnStart)
@@ -79,6 +85,10 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.blocksJellyOnHit, Settings.BLOCK_JELLY);
         this.SetToggle(this.bouncyLinesOnHit, Settings.BOUNCY_LINES_ENABLED);
 
+        this.SetToggle(this.wallSoundToggle, Settings.SOUND_WALL);
+        this.SetToggle(this.brickSoundToggle, Settings.SOUND_BRICK);
+        this.SetToggle(this.paddleSoundToggle, Settings.SOUND_PADDLE);
+        this.SetToggle(this.musicToggle, Settings.SOUND_MUSIC);
     }
 
     private void SetToggle(Toggle toggleElement, bool value)
@@ -106,6 +116,7 @@ public class HUDSettings : MonoBehaviour
 
 
     #region ButtonActions
+    
     //Color
     public void ToogleScreenColor(bool value)
     {
@@ -117,7 +128,7 @@ public class HUDSettings : MonoBehaviour
     }
 
 
-    //Tweening
+    #region Tweening
     public void ToogleTweeningEnable(bool value)
     {
         Settings.IS_TWEENING_ENABLE = value;
@@ -161,8 +172,9 @@ public class HUDSettings : MonoBehaviour
         if(newEaseNumber != value)
             this.tweenEaseSlider.value = newEaseNumber;
     }
+    #endregion Tweening
 
-    //Strech
+    #region Strech
     public void TogglePaddleStrech(bool value)
     {
         Settings.PADDLE_STRECH = value;
@@ -207,6 +219,31 @@ public class HUDSettings : MonoBehaviour
             enabled = Settings.BOUNCY_LINES_ENABLED
         });
     }
+    #endregion Strech
+
+    #region Sound
+    public void ToggleWallSoundOnHit(bool value)
+    {
+        Settings.SOUND_WALL = value;
+    }
+
+    public void ToggleBrickSoundOnHit(bool value)
+    {
+        Settings.SOUND_BRICK = value;
+    }
+
+    public void TogglePaddleSoundOnHit(bool value)
+    {
+        Settings.SOUND_PADDLE = value;
+    }
+
+    public void ToggleMusic(bool value)
+    {
+        Settings.SOUND_MUSIC = value;
+        AudioManager.Instance.ToggleMusic(Settings.SOUND_MUSIC);
+    }
+    #endregion Sound
+
     #endregion ButtonActions
 
 }

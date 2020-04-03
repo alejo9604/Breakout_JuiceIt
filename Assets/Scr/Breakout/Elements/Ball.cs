@@ -19,7 +19,8 @@ public class Ball : BreakoutElement
     const float ANIMATION_STRECH_PLUS = 0.5f;
     //Glow
     const float GLOW_DURATION = 0.2f;
-
+    //Hit-Sound
+    const float SOUND_TIME = 0.5f;
 
     [Header("Movement")]
     [SerializeField]
@@ -45,8 +46,11 @@ public class Ball : BreakoutElement
     private Vector3 scale;
     private Vector3 rotation = Vector3.zero;
     private float extraScale = 0;
-
     private float angle = 0;
+
+    //Sound
+    private int hitsCounts = 0;
+    private float hitsTimer = 0;
 
     //private Tween punchTween;
     private float punch;
@@ -114,11 +118,19 @@ public class Ball : BreakoutElement
             return;
 
         //TODO: Use Brick script or usr Event?
-        if (otherCollider is Brick)
+        if (otherCollider is Wall)
+            otherCollider.OnCollision(collision.contacts[0].point, this.velocity);
+        else {
             otherCollider.OnCollision();
 
-        else if (otherCollider is Wall)
-            otherCollider.OnCollision(collision.contacts[0].point, this.velocity);
+            if (otherCollider is Brick) {
+                this.hitsCounts = this.hitsTimer >= SOUND_TIME ? 0 : this.hitsCounts + 1;
+                this.hitsTimer = 0;
+
+                if (Settings.SOUND_BRICK)
+                    AudioManager.Instance.PlayBrickClip(hitsCounts);
+            }
+        }
 
 
         EventManager.Instance.Trigger(new BallCollisionEvent());
@@ -136,6 +148,9 @@ public class Ball : BreakoutElement
         this.rb.velocity = this.velocity;
 
         this.childTransform.localScale = this.childInitScale;
+
+        this.hitsCounts = 0;
+        this.hitsTimer = 0;
     }
 
 
@@ -188,6 +203,10 @@ public class Ball : BreakoutElement
 
         this.childTransform.localScale = this.scale;
         this.childTransform.localEulerAngles = this.rotation;
+
+
+        //Hits-Sound
+        this.hitsTimer += Time.deltaTime;
     }
 
     private void SetVelocity() {

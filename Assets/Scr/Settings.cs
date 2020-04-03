@@ -41,6 +41,13 @@ public class Settings
 
     public static readonly Vector3 PADDLE_STRECH_FACTOR = new Vector3(1.5f, -0.75f);
 
+
+    //Sound
+    public static bool SOUND_WALL = false;
+    public static bool SOUND_BRICK = false;
+    public static bool SOUND_PADDLE = false;
+    public static bool SOUND_MUSIC = false;
+
     //Util
     public static Vector2 BallMinVelocity() {
         return new Vector2(BALL_MIN_VELOCITY, BALL_MIN_VELOCITY);

@@ -79,6 +79,14 @@ public class Paddle : BreakoutElement
     }
 
 
+    public override void OnCollision()
+    {
+        base.OnCollision();
+
+        if(Settings.SOUND_PADDLE)
+            AudioManager.Instance.PlayPaddleClip();
+    }
+
     public void OnMovmentUpdated(float delta)
     {
         this.SetStrech(delta);
