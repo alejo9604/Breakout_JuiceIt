@@ -14,7 +14,7 @@ public class ParticleSystemEffect : MonoBehaviour
         this.currentColor = color;
     }
 
-    public void OnInit()
+    public void Init()
     {
         if (this.ps == null)
             this.ps = this.transform.GetComponentInChildren<ParticleSystem>();

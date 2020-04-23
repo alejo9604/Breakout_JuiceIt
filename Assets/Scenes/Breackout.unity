@@ -4137,6 +4137,8 @@ MonoBehaviour:
   initSpeed: 7
   color: {r: 1, g: 0.5254902, b: 0.21568628, a: 1}
   glowColor: {r: 1, g: 1, b: 1, a: 1}
+  psPrefab: {fileID: 4035870327463236292, guid: f5977a8366a8f2647a078578f6e14ba3,
+    type: 3}
 --- !u!114 &710290260 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7340420479097808762, guid: 0667f270b46780248ba93d2aec16dbc2,

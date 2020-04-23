@@ -39,6 +39,6 @@ public class TestParticleColor : MonoBehaviour
         */
 
         this.PS.SetMainColor(this.color);
-        this.PS.OnInit();
+        this.PS.Init();
     }
 }

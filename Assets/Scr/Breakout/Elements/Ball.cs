@@ -117,9 +117,11 @@ public class Ball : BreakoutElement
         if (!collision.collider.TryGetComponent<BreakoutElement>(out otherCollider))
             return;
 
+        ContactPoint2D contactPoint = collision.contacts[0];
+
         //TODO: Use Brick script or usr Event?
         if (otherCollider is Wall)
-            otherCollider.OnCollision(collision.contacts[0].point, this.velocity);
+            otherCollider.OnCollision(contactPoint.point, this.velocity);
         else {
             otherCollider.OnCollision();
 
@@ -134,7 +136,7 @@ public class Ball : BreakoutElement
 
 
         EventManager.Instance.Trigger(new BallCollisionEvent());
-        this.OnHitCollision();
+        this.OnHitCollision(contactPoint);
     }
 
     
@@ -230,8 +232,10 @@ public class Ball : BreakoutElement
         this.rb.velocity = this.velocity;
     }
 
+    public GameObject psPrefab;
 
-    private void OnHitCollision()
+
+    private void OnHitCollision(ContactPoint2D contactPoint)
     {
         if (Settings.BALL_EXTRA_SCALE_ON_HIT) {
             this.extraScale += EXTRA_SCALE_ON_HIT;
@@ -242,6 +246,21 @@ public class Ball : BreakoutElement
 
         if (Settings.BALL_GLOW_ON_HIT)
             this.OnGlowColor(this.glowColor, this.GetColor(), GLOW_DURATION, Ease.InCubic);
+
+        if (Settings.BALL_COLLISION_PARTICLE) {
+
+            float dot = Vector3.Dot(this.velocity, contactPoint.normal);
+            Vector3 direction = contactPoint.normal;
+            if (dot > 0.5f)
+                direction = this.velocity - 2 * contactPoint.normal * dot;
+            float psAngel = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+            
+
+            GameObject particle = Instantiate(this.psPrefab, contactPoint.point, Quaternion.Euler(new Vector3(0, 0, psAngel)));
+            particle.GetComponent<ParticleSystemEffect>().SetMainColor(this.GetColor());
+            particle.GetComponent<ParticleSystemEffect>().Init();
+        }
+
     }
 
 
@@ -256,5 +275,16 @@ public class Ball : BreakoutElement
         this.ResetElement();
     }
     #endregion Events
+
+    private void OnDrawGizmos()
+    {
+        float angle = Mathf.Atan2(this.velocity.y, this.velocity.x) * Mathf.Rad2Deg - 90;
+        Vector3 direction = new Vector3(-Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle), 0);
+
+        //Quaternion.FromToRotation(this.transform.up, )
+       
+
+        Gizmos.DrawLine(this.transform.position, this.transform.position + (Vector3) direction * 2);
+    }
 
 }
