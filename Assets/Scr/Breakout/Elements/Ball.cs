@@ -232,8 +232,6 @@ public class Ball : BreakoutElement
         this.rb.velocity = this.velocity;
     }
 
-    public GameObject psPrefab;
-
 
     private void OnHitCollision(ContactPoint2D contactPoint)
     {
@@ -254,11 +252,18 @@ public class Ball : BreakoutElement
             if (dot > 0.5f)
                 direction = this.velocity - 2 * contactPoint.normal * dot;
             float psAngel = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
-            
 
-            GameObject particle = Instantiate(this.psPrefab, contactPoint.point, Quaternion.Euler(new Vector3(0, 0, psAngel)));
+            GameObject particle = PoolManager.Instance.GetObject(Settings.BALL_COLLISION_EFFECT_PATH, null);
+
+            particle.transform.position = contactPoint.point;
+            particle.transform.rotation = Quaternion.Euler(new Vector3(0, 0, psAngel));
             particle.GetComponent<ParticleSystemEffect>().SetMainColor(this.GetColor());
             particle.GetComponent<ParticleSystemEffect>().Init();
+
+            TimeManager.Instance.Delay(() =>
+            {
+                PoolManager.Instance.ReleaseObject(particle);
+            }, 3f);
         }
 
     }

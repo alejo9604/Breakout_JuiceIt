@@ -28,7 +28,7 @@ public class Settings
     //Strech
     public static bool PADDLE_STRECH = false;
     public static bool BALL_EXTRA_SCALE_ON_HIT = false;
-    public static bool BALL_ROTATION_AND_STRECH = true;
+    public static bool BALL_ROTATION_AND_STRECH = false;
     public static bool BALL_STRECH_ON_HIT = false;
     public static bool BLOCK_JELLY = false;
     public static bool BOUNCY_LINES_ENABLED = false;
@@ -48,7 +48,13 @@ public class Settings
     public static bool SOUND_MUSIC = false;
 
     //Particles
-    public static bool BALL_COLLISION_PARTICLE = true;
+    public static bool BALL_COLLISION_PARTICLE = false;
+
+
+
+    //Prefabs
+    public const string BALL_COLLISION_EFFECT_PATH = "Prefabs/Effects/BallCollision";
+
 
     //Util
     public static Vector2 BallMinVelocity() {

@@ -42,6 +42,9 @@ public class HUDSettings : MonoBehaviour
     [SerializeField] private Toggle paddleSoundToggle;
     [SerializeField] private Toggle musicToggle;
 
+    [Header("Particles")]
+    [SerializeField] private Toggle ballCollisionParticleToggle;
+
     private void Start()
     {
         if(!activeOnStart)
@@ -89,6 +92,8 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.brickSoundToggle, Settings.SOUND_BRICK);
         this.SetToggle(this.paddleSoundToggle, Settings.SOUND_PADDLE);
         this.SetToggle(this.musicToggle, Settings.SOUND_MUSIC);
+        
+        this.SetToggle(this.ballCollisionParticleToggle, Settings.BALL_COLLISION_PARTICLE);
     }
 
     private void SetToggle(Toggle toggleElement, bool value)
@@ -241,6 +246,13 @@ public class HUDSettings : MonoBehaviour
     {
         Settings.SOUND_MUSIC = value;
         AudioManager.Instance.ToggleMusic(Settings.SOUND_MUSIC);
+    }
+    #endregion Sound
+
+    #region Particles
+    public void ToggleBallCollisionParticle(bool value)
+    {
+        Settings.BALL_COLLISION_PARTICLE = value;
     }
     #endregion Sound
 
