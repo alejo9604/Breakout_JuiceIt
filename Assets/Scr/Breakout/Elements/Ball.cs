@@ -119,19 +119,14 @@ public class Ball : BreakoutElement
 
         ContactPoint2D contactPoint = collision.contacts[0];
 
-        //TODO: Use Brick script or usr Event?
-        if (otherCollider is Wall)
-            otherCollider.OnCollision(contactPoint.point, this.velocity);
-        else {
-            otherCollider.OnCollision();
+        otherCollider.OnCollision(contactPoint.point, this.velocity);
 
-            if (otherCollider is Brick) {
-                this.hitsCounts = this.hitsTimer >= SOUND_TIME ? 0 : this.hitsCounts + 1;
-                this.hitsTimer = 0;
+        if (otherCollider is Brick) {
+            this.hitsCounts = this.hitsTimer >= SOUND_TIME ? 0 : this.hitsCounts + 1;
+            this.hitsTimer = 0;
 
-                if (Settings.SOUND_BRICK)
-                    AudioManager.Instance.PlayBrickClip(hitsCounts);
-            }
+            if (Settings.SOUND_BRICK)
+                AudioManager.Instance.PlayBrickClip(hitsCounts);
         }
 
 

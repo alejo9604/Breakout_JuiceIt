@@ -28,8 +28,6 @@ public class BreakoutElement : MonoBehaviour
 
     public virtual void ResetElement() { }
 
-    public virtual void OnCollision() { }
-
     public virtual void OnCollision(Vector2 position, Vector2 velocity) { }
 
     protected virtual void ResetLocalScale()

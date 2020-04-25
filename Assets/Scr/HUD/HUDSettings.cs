@@ -44,6 +44,11 @@ public class HUDSettings : MonoBehaviour
 
     [Header("Particles")]
     [SerializeField] private Toggle ballCollisionParticleToggle;
+    [SerializeField] private Toggle brickScaleOnHitToggle;
+    [SerializeField] private Slider brickKillDurationSlider;
+    [SerializeField] private TextMeshProUGUI brickKillDurationValue;
+    [SerializeField] private Toggle brickGravityOnHitToggle;
+    [SerializeField] private Toggle brickPushOnHitToggle;
 
     private void Start()
     {
@@ -94,6 +99,10 @@ public class HUDSettings : MonoBehaviour
         this.SetToggle(this.musicToggle, Settings.SOUND_MUSIC);
         
         this.SetToggle(this.ballCollisionParticleToggle, Settings.BALL_COLLISION_PARTICLE);
+        this.SetToggle(this.brickScaleOnHitToggle, Settings.BRICK_SCALE_ON_COLLISION);
+        this.SetSlider(this.brickKillDurationSlider, this.brickKillDurationValue, Settings.BRICK_DESTRUCTION_TIME * 10, Settings.BRICK_DESTRUCTION_TIME.ToString());
+        this.SetToggle(this.brickGravityOnHitToggle, Settings.BRICK_GRAVITY_ON_COLLISION);
+        this.SetToggle(this.brickPushOnHitToggle, Settings.BRICK_PUSH_ON_COLLISION);
     }
 
     private void SetToggle(Toggle toggleElement, bool value)
@@ -254,7 +263,29 @@ public class HUDSettings : MonoBehaviour
     {
         Settings.BALL_COLLISION_PARTICLE = value;
     }
-    #endregion Sound
+
+    public void ToggleBrickScaleOnHit(bool value)
+    {
+        Settings.BRICK_SCALE_ON_COLLISION = value;
+    }
+
+    public void SliderBrickKillDuration(float value)
+    {
+        value /= 10;
+        Settings.BRICK_DESTRUCTION_TIME = value;
+        this.brickKillDurationValue.text = Settings.BRICK_DESTRUCTION_TIME.ToString();
+    }
+
+    public void ToggleBrickGravityOnHit(bool value)
+    {
+        Settings.BRICK_GRAVITY_ON_COLLISION = value;
+    }
+
+    public void ToggleBrickPushOnHit(bool value)
+    {
+        Settings.BRICK_PUSH_ON_COLLISION = value;
+    }
+    #endregion Particles
 
     #endregion ButtonActions
 

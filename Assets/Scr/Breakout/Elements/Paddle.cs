@@ -79,9 +79,9 @@ public class Paddle : BreakoutElement
     }
 
 
-    public override void OnCollision()
+    public override void OnCollision(Vector2 position, Vector2 velocity)
     {
-        base.OnCollision();
+        base.OnCollision(position, velocity);
 
         if(Settings.SOUND_PADDLE)
             AudioManager.Instance.PlayPaddleClip();

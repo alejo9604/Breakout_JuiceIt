@@ -38,6 +38,7 @@ public class Settings
 
     //Gravity
     public static float BALL_GRAVITY = 0;
+    public static float BRICK_GRAVITY = -8;
 
     public static readonly Vector3 PADDLE_STRECH_FACTOR = new Vector3(1.5f, -0.75f);
     
@@ -49,6 +50,10 @@ public class Settings
 
     //Particles
     public static bool BALL_COLLISION_PARTICLE = false;
+    public static float BRICK_DESTRUCTION_TIME = 1f;
+    public static bool BRICK_SCALE_ON_COLLISION = false;
+    public static bool BRICK_GRAVITY_ON_COLLISION = false;
+    public static bool BRICK_PUSH_ON_COLLISION = false;
 
 
 
